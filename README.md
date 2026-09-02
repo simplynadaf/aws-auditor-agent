@@ -1,5 +1,7 @@
 # AWS Auditor — Your First Read-Only AI Agent
 
+![AWS Audit Agent in 10 minutes using Kiro Crew](assets/thumbnail.png)
+
 A single JSON file and one Markdown checklist that turn Kiro Crew (or Amazon Q
 Developer CLI) into an AI agent that audits a live AWS account for **security risks**
 and **wasted spend**, then prints a prioritized, cited report.
