@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowYourPrincipalToAssumeAuditor",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::ACCOUNT_ID:user/YOUR_USERNAME"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}

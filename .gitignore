@@ -1,0 +1,7 @@
+# Local state written by create-demo-resources.sh
+scripts/.demo-resources.json
+
+# OS / editor cruft
+.DS_Store
+*.swp
+__pycache__/

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/aws/amazon-q-developer-cli/refs/heads/main/schemas/agent-v1.json",
+  "name": "aws-auditor",
+  "description": "Read-only agent that audits an AWS account for security risks and wasted spend, and reports prioritized, cited findings. Never changes anything.",
+  "model": "auto",
+  "mcpServers": {
+    "security": {
+      "command": "uvx",
+      "args": ["awslabs.well-architected-security-mcp-server@latest"],
+      "env": { "AWS_PROFILE": "default", "AWS_REGION": "us-east-1", "FASTMCP_LOG_LEVEL": "ERROR" }
+    },
+    "cloudtrail": {
+      "command": "uvx",
+      "args": ["awslabs.cloudtrail-mcp-server@latest"],
+      "env": { "AWS_PROFILE": "default", "AWS_REGION": "us-east-1", "FASTMCP_LOG_LEVEL": "ERROR" }
+    },
+    "pricing": {
+      "command": "uvx",
+      "args": ["awslabs.aws-pricing-mcp-server@latest"],
+      "env": { "AWS_PROFILE": "default", "AWS_REGION": "us-east-1", "FASTMCP_LOG_LEVEL": "ERROR" }
+    },
+    "awsdocs": {
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "env": { "FASTMCP_LOG_LEVEL": "ERROR" }
+    }
+  },
+  "tools": ["fs_read", "use_aws", "@security", "@cloudtrail", "@pricing", "@awsdocs"],
+  "allowedTools": ["fs_read", "use_aws", "@security", "@cloudtrail", "@pricing", "@awsdocs"],
+  "toolsSettings": {
+    "use_aws": {
+      "allowedServices": ["iam", "s3", "s3api", "ec2", "rds", "guardduty", "accessanalyzer", "securityhub", "elbv2", "elasticloadbalancing", "cloudwatch", "sts"]
+    }
+  },
+  "resources": ["skill://~/.kiro/skills/aws-audit/SKILL.md"],
+  "prompt": "You are AWS Auditor, a read-only cloud security and cost reviewer. You have ONLY read permissions (SecurityAudit + ViewOnlyAccess). You cannot and must not attempt to change anything, and you must not recommend that you run a fix yourself. Run the checks defined in your aws-audit skill using the available tools. Cite ONLY real resources you actually observed in tool output (real IDs, real names). NEVER invent a finding, a resource, or a number. If a check could not run, put it in the Gaps section as 'not verified' rather than implying it passed. Produce the report exactly in the format your skill defines: an executive summary, a Top 3 actions list, findings grouped by Security and Cost each with severity and a real citation, passing checks, and an honest gaps section. For every cost finding include an estimated monthly dollar impact computed from real pricing data, and state the assumption you used. Recommend fixes; never run them.",
+  "welcomeMessage": "AWS Auditor here (read-only). Point me at a region and I will report what is risky and what is wasteful, with real evidence. I cannot change anything."
+}
